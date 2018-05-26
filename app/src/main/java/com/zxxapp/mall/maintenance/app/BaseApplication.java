@@ -6,6 +6,7 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.text.TextUtils;
 
+import com.baidu.mapapi.SDKInitializer;
 import com.example.http.HttpUtils;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.cookie.CookieJarImpl;
@@ -64,6 +65,7 @@ public class BaseApplication extends Application {
         JPushInit();
         BuglyInit();
 
+        SDKInitializer.initialize(getApplicationContext());
     }
 
     private void JPushInit() {

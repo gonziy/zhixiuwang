@@ -4,7 +4,7 @@ import android.app.Application;
 
 import com.zxxapp.mall.maintenance.app.BaseApplication;
 import com.zxxapp.mall.maintenance.bean.account.User;
-import com.zxxapp.mall.maintenance.config.AppConfig;
+import com.zxxapp.mall.maintenance.bean.shop.ShopBean;
 
 /**
  * Created by Thinten on 2017-12-14
@@ -17,6 +17,7 @@ public final class AccountHelper {
     private Application application;
     private static AccountHelper instances;
     private User user;
+    private static ShopBean shop;
 
     private AccountHelper(Application application) {
         this.application = application;
@@ -57,5 +58,13 @@ public final class AccountHelper {
 //        } else {
 //            return true;
 //        }
+    }
+
+    public static ShopBean getShop() {
+        return shop;
+    }
+
+    public static void setShop(ShopBean shop) {
+        AccountHelper.shop = shop;
     }
 }

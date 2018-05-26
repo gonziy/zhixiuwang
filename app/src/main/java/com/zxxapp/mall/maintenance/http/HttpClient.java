@@ -1,13 +1,20 @@
 package com.zxxapp.mall.maintenance.http;
 
 import com.example.http.HttpUtils;
+import com.zxxapp.mall.maintenance.bean.RequestDataArrayBean;
+import com.zxxapp.mall.maintenance.bean.RequestDataBean;
+import com.zxxapp.mall.maintenance.bean.RequestDataListArrayBean;
+import com.zxxapp.mall.maintenance.bean.RequestPaginationBean;
 import com.zxxapp.mall.maintenance.bean.FrontpageBean;
 import com.zxxapp.mall.maintenance.bean.GankIoDataBean;
 import com.zxxapp.mall.maintenance.bean.GankIoDayBean;
 import com.zxxapp.mall.maintenance.bean.HotMovieBean;
+import com.zxxapp.mall.maintenance.bean.RequestListArrayBean;
 import com.zxxapp.mall.maintenance.bean.MovieDetailBean;
+import com.zxxapp.mall.maintenance.bean.RequestBaseBean;
 import com.zxxapp.mall.maintenance.bean.ResultBean;
 import com.zxxapp.mall.maintenance.bean.ShopDataBean;
+import com.zxxapp.mall.maintenance.bean.RequestUploadBean;
 import com.zxxapp.mall.maintenance.bean.UserLoginBean;
 import com.zxxapp.mall.maintenance.bean.account.AreaBean;
 import com.zxxapp.mall.maintenance.bean.account.CartResult;
@@ -19,21 +26,21 @@ import com.zxxapp.mall.maintenance.bean.book.BookBean;
 import com.zxxapp.mall.maintenance.bean.book.BookDetailBean;
 import com.zxxapp.mall.maintenance.bean.goods.GoodsDetailBean;
 import com.zxxapp.mall.maintenance.bean.goods.ServiceListBean;
+import com.zxxapp.mall.maintenance.bean.shop.CategoryBean;
+import com.zxxapp.mall.maintenance.bean.shop.OrderBean;
+import com.zxxapp.mall.maintenance.bean.shop.ServiceBean;
+import com.zxxapp.mall.maintenance.bean.shop.ShopBean;
 import com.zxxapp.mall.maintenance.bean.shopping.CartCount;
 import com.zxxapp.mall.maintenance.bean.shopping.PreOrderBean;
 import com.zxxapp.mall.maintenance.bean.shopping.ShopListBean;
 
-import org.json.JSONObject;
-
-import java.math.BigDecimal;
-
-import javax.xml.transform.Result;
-
-import retrofit2.http.Body;
+import okhttp3.MultipartBody;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 import rx.Observable;
@@ -48,9 +55,11 @@ public interface HttpClient {
         public static HttpClient getDouBanService() {
             return HttpUtils.getInstance().getDouBanServer(HttpClient.class);
         }
+
         public static HttpClient getTingServer() {
             return HttpUtils.getInstance().getTingServer(HttpClient.class);
         }
+
         public static HttpClient getGankIOServer() {
             return HttpUtils.getInstance().getGankIOServer(HttpClient.class);
         }
@@ -58,6 +67,7 @@ public interface HttpClient {
         public static HttpClient getGoodsServer() {
             return HttpUtils.getInstance().getGoodsServer(HttpClient.class);
         }
+
         public static HttpClient getZhiXiuServer() {
             return HttpUtils.getInstance().getZhiXiuServer(HttpClient.class);
         }
@@ -76,20 +86,6 @@ public interface HttpClient {
 
     @GET("shop/getShopListByServiceId")
     Observable<ShopListBean> getShopListByServiceId(@Query("serviceId") String serviceId);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     @GET("v1/goods/index.ashx")
@@ -140,19 +136,74 @@ public interface HttpClient {
     );
 
 
+    /**
+     * 商户接口开始
+     */
+    @GET("shop/getShopByToken")
+    Observable<RequestListArrayBean<ShopBean>> getShopByToken(@Query("token") String token);
+
+    @GET("auth/checkAuth")
+    Observable<RequestBaseBean> checkAuth(@Query("token") String token);
+
+    @FormUrlEncoded
+    @POST("shop/createShop")
+    Observable<RequestBaseBean> createShop(@Field("token") String token,
+                                           @Field("shopName") String title,
+                                           @Field("logoImg") String logo,
+                                           @Field("address") String address,
+                                           @Field("intro") String intro,
+                                           @Field("notice") String notice,
+                                           @Field("location") String location);
 
 
+    @Multipart
+    @POST("shop/uploadImg")
+    Observable<RequestUploadBean> uploadImage(@Part MultipartBody.Part logo);
 
+    @GET("auth/addAuth")
+    Observable<RequestBaseBean> addAuth(@Query("token") String token,
+                                        @Query("realName") String name,
+                                        @Query("identity") String no,
+                                        @Query("idPic") String cards,
+                                        @Query("businessPic") String license,
+                                        @Query("expPic") String pictures);
 
+    @GET("category/getCategory")
+    Observable<RequestDataListArrayBean<CategoryBean>> getCategory(@Query("token") String token);
 
+    @GET("category/getService")
+    Observable<RequestDataListArrayBean<ServiceBean>> getService(@Query("token") String token,
+                                                                 @Query("categoryId") int categoryId,
+                                                                 @Query("categoryType") String categoryTypr);
 
+    @GET("shop/addServiceApp")
+    Observable<RequestBaseBean> addService(@Query("shopId") int shopId,
+                                           @Query("serviceId") int serviceId);
 
+    @GET("shop/delServiceApp")
+    Observable<RequestBaseBean> delService(@Query("shopId") int shopId,
+                                           @Query("serviceId") int serviceId);
 
+    @GET("shop/getShopServiceByShopIdApp")
+    Observable<RequestDataArrayBean<ServiceBean>> getShopServiceList(@Query("shopId") int shopId);
 
+    @GET("order/getOrderListByShopId")
+    Observable<RequestPaginationBean<OrderBean>> getOrderList(@Query("shopId") int shopId,
+                                                              @Query("status") int status,
+                                                              @Query("pageNo") int page,
+                                                              @Query("pageLimit") int limit);
 
+    @GET("order/getOrderListByShopId")
+    Observable<RequestPaginationBean<OrderBean>> getOrderList(@Query("shopId") int shopId,
+                                                              @Query("pageNo") int page,
+                                                              @Query("pageLimit") int limit);
 
+    @GET("order/getOrderByOrderNo2")
+    Observable<RequestDataBean<OrderBean>> getOrder(@Query("orderNo") String orderNo);
 
-
+    /**
+     * 商户接口结束
+     **/
 
 
     @FormUrlEncoded
@@ -238,7 +289,6 @@ public interface HttpClient {
      */
     @GET("data/{type}/{pre_page}/{page}")
     Observable<GankIoDataBean> getGankIoData(@Path("type") String id, @Path("page") int page, @Path("pre_page") int pre_page);
-
 
 
     /**

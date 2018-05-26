@@ -189,7 +189,7 @@ public class WebViewActivity extends AppCompatActivity implements IWebPageView {
         webView.setWebChromeClient(mWebChromeClient);
         // 与js交互
         webView.addJavascriptInterface(new JavascriptBridgeInterface(this), "JavascriptBridge");
-        webView.setWebViewClient(new MyWebViewClient(this));
+        webView.setWebViewClient(new MyWebViewClient(this));;
     }
 
     @Override

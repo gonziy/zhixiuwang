@@ -23,6 +23,7 @@ import com.zxxapp.mall.maintenance.view.statusbar.StatusBarUtil;
 import rx.Subscription;
 import rx.subscriptions.CompositeSubscription;
 
+
 /**
  * Created by jingbin on 16/12/10.
  */

@@ -44,6 +44,7 @@ import com.zxxapp.mall.maintenance.model.UserModel;
 import com.zxxapp.mall.maintenance.ui.gank.child.GoodsDetailActivity;
 import com.zxxapp.mall.maintenance.ui.mine.child.LoginActivity;
 import com.zxxapp.mall.maintenance.ui.mine.child.UserInfoEditActivity;
+import com.zxxapp.mall.maintenance.ui.shop.ValidateActivity;
 import com.zxxapp.mall.maintenance.utils.BaseTools;
 import com.zxxapp.mall.maintenance.utils.CommonUtils;
 import com.zxxapp.mall.maintenance.utils.DebugUtil;
@@ -144,8 +145,10 @@ public class MineFragment extends BaseFragment<FragmentMineBinding> {
         bindingView.llTeam.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                UserInfoEditActivity.start(v.getContext());
+                ValidateActivity.start(v.getContext());
+                //UserInfoEditActivity.start(v.getContext());
                 //WebViewActivity.loadUrl(v.getContext(), HttpUtils.API_HOST + CommonUtils.getString(R.string.string_url_team),"我的团队",true);
+                //WebViewActivity.loadUrl(v.getContext(), "file:///android_asset/index.html","我的团队",true);
             }
         });
         bindingView.llResult.setOnClickListener(new View.OnClickListener() {

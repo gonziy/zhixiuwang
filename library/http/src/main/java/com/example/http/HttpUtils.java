@@ -62,10 +62,12 @@ public class HttpUtils {
 //    private final static String APP_API = "http://192.168.100.110:8001/api/";
 
 
-    public final static String API_HOST = "http://39.107.244.130:8080/";
+    //public final static String API_HOST = "http://39.107.244.130:8080/";
+    public final static String API_HOST = "http://39.107.244.130:80/";
     private final static String APP_API = "http://shop.zhenmeizhixiu.com/api/";
 
-    public final static String ZhiXiuWang_HOST = "http://39.107.244.130:8080/zxxapp/";
+//    public final static String ZhiXiuWang_HOST = "http://39.107.244.130:8080/zxxapp/";
+public final static String ZhiXiuWang_HOST = "http://39.107.244.130:80/zxxapp/";
 
 
     private final static String API_GANKIO = "https://gank.io/api/";
